@@ -48,4 +48,10 @@ module.exports = class FreeSpotify {
     FluxDispatcher.unsubscribe("SPOTIFY_PROFILE_UPDATE", this.spotifyListener);
     this.setEnabled(false);
   }
+
+  unload() {
+    if (!this.enabled) return;
+    this.disable();
+    this.setEnabled(true);
+  }
 };

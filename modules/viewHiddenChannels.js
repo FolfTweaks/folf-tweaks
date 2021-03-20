@@ -130,4 +130,10 @@ module.exports = class ViewHiddenChannels {
     uninject("folf-disabledUnread");
     this.setEnabled(false);
   }
+
+  unload() {
+    if (!this.enabled) return;
+    this.disable();
+    this.setEnabled(true);
+  }
 };

@@ -73,4 +73,10 @@ module.exports = class HighQualityStream {
     delete this.defaultValueCache["ApplicationStreamResolutionRequirements"];
     this.setEnabled(false);
   }
+
+  unload() {
+    if (!this.enabled) return;
+    this.disable();
+    this.setEnabled(true);
+  }
 };

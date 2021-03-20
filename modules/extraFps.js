@@ -92,4 +92,10 @@ module.exports = class ExtraFps {
     delete this.defaultValueCache["ApplicationStreamFPSRequirements"];
     this.setEnabled(false);
   }
+
+  unload() {
+    if (!this.enabled) return;
+    this.disable();
+    this.setEnabled(true);
+  }
 };
