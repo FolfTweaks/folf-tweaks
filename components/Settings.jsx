@@ -1,28 +1,23 @@
-const { React } = require('powercord/webpack')
-const { SwitchItem } = require('powercord/components/settings')
-
+const { React } = require("powercord/webpack");
+const { SwitchItem } = require("powercord/components/settings");
 
 module.exports = ({ main, getSetting, toggleSetting }) => {
-    toggleSetting_ = (name) => {
-        toggleSetting(name);
-        main.updateModules();
-    }
+  console.log("wtf");
 
-    return (<>
-        <SwitchItem
-            value={getSetting('highQualityStream')}
-            onChange={() => toggleSetting_('highQualityStream')}
-            note='Unlock nitro-only stream qualities.'
-        >High Quality Streams</SwitchItem>
-        <SwitchItem
-            value={getSetting('extraFps')}
-            onChange={() => toggleSetting_('extraFps')}
-            note='Adds a few extra FPS options for streams.'
-        >More FPS</SwitchItem>
-        <SwitchItem
-            value={getSetting('freeSpotify')}
-            onChange={() => toggleSetting_('freeSpotify')}
-            note="Patches Discord's spotify premium check mode."
-        >Free listen along</SwitchItem>
-    </>);
-}
+  return (
+    <>
+      {Object.values(main.modules).map((module) => {
+        return (
+          <SwitchItem
+            key={module.id}
+            value={module.enabled}
+            onChange={() => module.toggle()}
+            note={module.description}
+          >
+            {module.name}
+          </SwitchItem>
+        );
+      })}
+    </>
+  );
+};
