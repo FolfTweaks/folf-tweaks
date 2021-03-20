@@ -32,6 +32,7 @@ module.exports = class FolfTweaks extends Plugin {
   }
 
   pluginWillUnload() {
+    this.modules.forEach((m) => m.disable());
     powercord.api.settings.unregisterSettings(this.entityID);
   }
 
