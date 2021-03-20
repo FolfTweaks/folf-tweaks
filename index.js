@@ -4,12 +4,13 @@ const { React } = require("powercord/webpack");
 const HighQualityStream = require("./modules/highQualityStream");
 const ExtraFps = require("./modules/extraFps");
 const FreeSpotify = require("./modules/freeSpotify");
-
+const ViewHiddenChannels = require("./modules/viewHiddenChannels");
 module.exports = class FolfTweaks extends Plugin {
   modules = {
     highQualityStream: new HighQualityStream(this),
     extraFps: new ExtraFps(this),
     freeSpotify: new FreeSpotify(this),
+    viewHiddenChannels: new ViewHiddenChannels(this),
   };
 
   activatedModules = {
@@ -32,7 +33,7 @@ module.exports = class FolfTweaks extends Plugin {
   }
 
   pluginWillUnload() {
-    this.modules.forEach((m) => m.disable());
+    Object.values(this.modules).forEach((m) => m.unload());
     powercord.api.settings.unregisterSettings(this.entityID);
   }
 
