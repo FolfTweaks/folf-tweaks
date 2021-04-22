@@ -33,24 +33,19 @@ module.exports = class HighQualityStream {
     if (this.enabled) return;
     console.log("Enabling stream patch...");
     const RequirementsModule = getModule(
-      ["ApplicationStreamResolutionRequirements"],
+      ["ApplicationStreamSettingRequirements"],
       false
     );
-    this.defaultValueCache["ApplicationStreamFPSRequirements"] = {
-      ...RequirementsModule.ApplicationStreamFPSRequirements,
-    };
-    this.defaultValueCache["ApplicationStreamResolutionRequirements"] = {
-      ...RequirementsModule.ApplicationStreamResolutionRequirements,
+    this.defaultValueCache["ApplicationStreamSettingRequirements"] = {
+      ...RequirementsModule.ApplicationStreamSettingRequirements,
     };
     this.setEnabled(true);
-    Object.keys(RequirementsModule.ApplicationStreamFPSRequirements).forEach(
-      (key) => (RequirementsModule.ApplicationStreamFPSRequirements[key] = null)
-    );
-    Object.keys(
-      RequirementsModule.ApplicationStreamResolutionRequirements
-    ).forEach(
-      (key) =>
-        (RequirementsModule.ApplicationStreamResolutionRequirements[key] = null)
+    RequirementsModule.ApplicationStreamSettingRequirements = RequirementsModule.ApplicationStreamSettingRequirements.map(
+      (setting) => {
+        delete setting.userPremiumType;
+        delete setting.guildPremiumTier;
+        return setting;
+      }
     );
   }
 
@@ -58,19 +53,14 @@ module.exports = class HighQualityStream {
     if (!this.enabled) return;
     console.log("Disabling stream patch...");
     const RequirementsModule = getModule(
-      ["ApplicationStreamResolutionRequirements"],
+      ["ApplicationStreamSettingRequirements"],
       false
     );
-    if (this.defaultValueCache["ApplicationStreamFPSRequirements"])
-      RequirementsModule.ApplicationStreamFPSRequirements = this.defaultValueCache[
-        "ApplicationStreamFPSRequirements"
+    if (this.defaultValueCache["ApplicationStreamSettingRequirements"])
+      RequirementsModule.ApplicationStreamSettingRequirements = this.defaultValueCache[
+        "ApplicationStreamSettingRequirements"
       ];
-    if (this.defaultValueCache["ApplicationStreamResolutionRequirements"])
-      RequirementsModule.ApplicationStreamResolutionRequirements = this.defaultValueCache[
-        "ApplicationStreamResolutionRequirements"
-      ];
-    delete this.defaultValueCache["ApplicationStreamFPSRequirements"];
-    delete this.defaultValueCache["ApplicationStreamResolutionRequirements"];
+    delete this.defaultValueCache["ApplicationStreamSettingRequirements"];
     this.setEnabled(false);
   }
 

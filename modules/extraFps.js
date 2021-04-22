@@ -33,7 +33,7 @@ module.exports = class ExtraFps {
     if (this.enabled) return;
     console.log("Enabling FPS patch...");
     const RequirementsModule = getModule(
-      ["ApplicationStreamResolutionRequirements"],
+      ["ApplicationStreamSettingRequirements"],
       false
     );
     this.defaultValueCache["ApplicationStreamFPS"] = {
@@ -45,9 +45,6 @@ module.exports = class ExtraFps {
     this.defaultValueCache["ApplicationStreamFPSButtonsWithSuffixLabel"] = [
       ...RequirementsModule.ApplicationStreamFPSButtonsWithSuffixLabel,
     ];
-    this.defaultValueCache["ApplicationStreamFPSRequirements"] = {
-      ...RequirementsModule.ApplicationStreamFPSRequirements,
-    };
     this.setEnabled(true);
     const fps = [120, 180, 240, 300];
     fps.forEach((e) => {
@@ -59,7 +56,6 @@ module.exports = class ExtraFps {
       RequirementsModule.ApplicationStreamFPSButtonsWithSuffixLabel.push({
         value: e,
       });
-      RequirementsModule.ApplicationStreamFPSRequirements[e] = null;
     });
   }
 
@@ -67,7 +63,7 @@ module.exports = class ExtraFps {
     if (!this.enabled) return;
     console.log("Disabling FPS patch...");
     const RequirementsModule = getModule(
-      ["ApplicationStreamResolutionRequirements"],
+      ["ApplicationStreamSettingRequirements"],
       false
     );
     if (this.defaultValueCache["ApplicationStreamFPS"])
@@ -82,14 +78,9 @@ module.exports = class ExtraFps {
       RequirementsModule.ApplicationStreamFPSButtonsWithSuffixLabel = this.defaultValueCache[
         "ApplicationStreamFPSButtonsWithSuffixLabel"
       ];
-    if (this.defaultValueCache["ApplicationStreamFPSRequirements"])
-      RequirementsModule.ApplicationStreamFPSRequirements = this.defaultValueCache[
-        "ApplicationStreamFPSRequirements"
-      ];
     delete this.defaultValueCache["ApplicationStreamFPS"];
     delete this.defaultValueCache["ApplicationStreamFPSButtons"];
     delete this.defaultValueCache["ApplicationStreamFPSButtonsWithSuffixLabel"];
-    delete this.defaultValueCache["ApplicationStreamFPSRequirements"];
     this.setEnabled(false);
   }
 
