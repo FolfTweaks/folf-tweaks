@@ -45,6 +45,9 @@ module.exports = class ExtraFps {
     this.defaultValueCache["ApplicationStreamFPSButtonsWithSuffixLabel"] = [
       ...RequirementsModule.ApplicationStreamFPSButtonsWithSuffixLabel,
     ];
+    this.defaultValueCache["ApplicationStreamSettingRequirements"] = {
+      ...RequirementsModule.ApplicationStreamSettingRequirements,
+    };
     this.setEnabled(true);
     const fps = [120, 180, 240, 300];
     fps.forEach((e) => {
@@ -55,6 +58,12 @@ module.exports = class ExtraFps {
       });
       RequirementsModule.ApplicationStreamFPSButtonsWithSuffixLabel.push({
         value: e,
+      });
+      [0, 1080, 720, 480].forEach((fps) => {
+        RequirementsModule.ApplicationStreamSettingRequirements.push({
+          resolution: fps,
+          fps: e,
+        });
       });
     });
   }
@@ -78,9 +87,14 @@ module.exports = class ExtraFps {
       RequirementsModule.ApplicationStreamFPSButtonsWithSuffixLabel = this.defaultValueCache[
         "ApplicationStreamFPSButtonsWithSuffixLabel"
       ];
+    if (this.defaultValueCache["ApplicationStreamSettingRequirements"])
+      RequirementsModule.ApplicationStreamSettingRequirements = this.defaultValueCache[
+        "ApplicationStreamSettingRequirements"
+      ];
     delete this.defaultValueCache["ApplicationStreamFPS"];
     delete this.defaultValueCache["ApplicationStreamFPSButtons"];
     delete this.defaultValueCache["ApplicationStreamFPSButtonsWithSuffixLabel"];
+    delete this.defaultValueCache["ApplicationStreamSettingRequirements"];
     this.setEnabled(false);
   }
 
