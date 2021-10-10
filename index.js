@@ -1,11 +1,11 @@
 const { Plugin } = require("powercord/entities");
 const Settings = require("./components/Settings");
-const { React, messages: MessageEvents } = require("powercord/webpack");
+const { React, getModule, messages: MessageEvents } = require("powercord/webpack");
 const HighQualityStream = require("./modules/highQualityStream");
 const ExtraFps = require("./modules/extraFps");
 const FreeSpotify = require("./modules/freeSpotify");
 const ViewHiddenChannels = require("./modules/viewHiddenChannels");
-const { inject } = require("powercord/injector");
+const { inject, uninject } = require("powercord/injector");
 module.exports = class FolfTweaks extends Plugin {
   modules = {
     highQualityStream: new HighQualityStream(this),
@@ -31,6 +31,9 @@ module.exports = class FolfTweaks extends Plugin {
         }),
     });
     this.updateModules();
+
+    const RequirementsModule = getModule(["ApplicationStreamSettingRequirements"], false);
+    RequirementsModule.getApplicationFramerate = (args) => { return args };
   }
 
   pluginWillUnload() {
